@@ -1,28 +1,15 @@
-import fs from "fs";
-import path from "path";
-
 function handler(req, res) {
   if (req.method === "POST") {
-    const email = req.body.email;
+    const userEmail = req.body.email;
+    console.log(req.body);
 
-    const newUser = {
-      id: new Date().toISOString(),
-      email,
-    };
-
-    const filePath = path.join(process.cwd(), "data", "user.json");
-    const fileData = fs.readFileSync(filePath);
-    const data = JSON.parse(fileData);
-
-    data.push(newUser);
-    fs.writeFileSync(filePath, JSON.stringify(data));
-    res.status(201).json({ message: "Success!", user: newUser });
-  } else {
-    const filePath = path.join(process.cwd(), "data", "user.json");
-    const fileData = fs.readFileSync(filePath);
-    const data = JSON.parse(fileData);
-
-    res.status(200).json({ user: data });
+    // 클라이언트 사이드(컴포넌트 파일)뿐만 아니라, 서버사이드에서도 유효성검사 필수!!(bc 클라이언트 사이드 유효성 검사는 직접 브라우저에서 조작할 수 있기 때문)
+    if (!userEmail || !userEmail.includes("@")) {
+      res.status(422).json({ message: "Invalid email address" });
+      return;
+    }
+    console.log(userEmail);
+    res.status(201).json({ message: "Signed up!" });
   }
 }
 

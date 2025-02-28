@@ -12,7 +12,7 @@ function NewsletterRegistration() {
     // fetch user input (state or refs)
     const userEmail = userEmailRef.current.value;
 
-    // optional: validate input
+    // optional: validate input (강사님은 굳이 안하심.. 실제 유효성검사는 api폴더 내에서 실행하고, 이 코드는 단지 유저에게 즉각적인 오류 피드백을 주기 위한 유효성검사이기 때문)
     if (!userEmail || !userEmail.includes("@")) {
       setIsInvalid(true);
     }
@@ -21,7 +21,7 @@ function NewsletterRegistration() {
     // send valid data to API
     const res = await fetch("/api/user", {
       method: "POST",
-      body: JSON.stringify(reqBody),
+      body: JSON.stringify(reqBody), // POST(데이터 등록)할 때는 JSON 데이터로 등록!!(밑에 content-type을 json으로 써준 이유..)
       headers: {
         "Content-Type": "application/json",
       },
