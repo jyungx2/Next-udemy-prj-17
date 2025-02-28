@@ -48,12 +48,22 @@ async function handler(req, res) {
   }
 
   if (req.method === "GET") {
-    const dummyList = [
-      { id: "c1", name: "Max", text: "A first comment!" },
-      { id: "c2", name: "Manuel", text: "A second comment!" },
-    ];
+    // MongoDB 데이터베이스 가져오기
+    const db = client.db();
 
-    res.status(200).json({ comments: dummyList });
+    // 'comments' 컬렉션에서 모든 댓글 가져오고 최신순 정렬
+    const documents = await db
+      .collection("comments") // 'comments' 컬렉션을 선택
+      .find() // 컬렉션의 모든 문서를 찾음
+      .sort({ _id: -1 }) // _id(즉, 생성 시간 기준) 📉내림차순📉으로 정렬하여 "최신 댓글"이 먼저 오도록 함
+      .toArray(); // 검색된 문서를 배열로 변환
+
+    // const dummyList = [
+    //   { id: "c1", name: "Max", text: "A first comment!" },
+    //   { id: "c2", name: "Manuel", text: "A second comment!" },
+    // ];
+
+    res.status(200).json({ comments: documents });
   }
 
   // MongoDB 클라이언트 연결 해제 (⭐️필수⭐️)
