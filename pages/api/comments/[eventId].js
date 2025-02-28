@@ -19,7 +19,7 @@ function handler(req, res) {
     }
 
     const newComment = {
-      id: new Data().toISOString(),
+      id: new Date().toISOString(),
       email,
       name,
       text,
