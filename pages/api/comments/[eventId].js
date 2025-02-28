@@ -58,11 +58,6 @@ async function handler(req, res) {
       .sort({ _id: -1 }) // _id(즉, 생성 시간 기준) 📉내림차순📉으로 정렬하여 "최신 댓글"이 먼저 오도록 함
       .toArray(); // 검색된 문서를 배열로 변환
 
-    // const dummyList = [
-    //   { id: "c1", name: "Max", text: "A first comment!" },
-    //   { id: "c2", name: "Manuel", text: "A second comment!" },
-    // ];
-
     res.status(200).json({ comments: documents });
   }
 
