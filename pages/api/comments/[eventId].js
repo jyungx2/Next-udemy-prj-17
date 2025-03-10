@@ -75,7 +75,12 @@ async function handler(req, res) {
     //   .toArray(); // 검색된 문서를 배열로 변환
 
     try {
-      const documents = await getAllDocuments(client, "comments", { _id: -1 });
+      const documents = await getAllDocuments(
+        client,
+        "comments",
+        { _id: -1 },
+        { eventId: eventId } // ✨filter parameter: you ensure that you only fetch the comments that really belong to a specific event.
+      );
       res.status(200).json({ comments: documents });
     } catch (err) {
       res.status(500).json({ message: "Getting comments failed!" });
